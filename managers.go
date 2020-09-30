@@ -19,8 +19,7 @@ type Player struct {
 	KickerTeam string `json:"kickerTeam"`
 }
 
-func getPdata() (players Players, err error) {
-	skip := false
+func getPdata(players Players) (err error) {
 	c := colly.NewCollector(
 		colly.AllowedDomains("www.kicker.de"),
 		colly.Async(true),
@@ -30,22 +29,25 @@ func getPdata() (players Players, err error) {
 		fmt.Println("visiting", r.URL.String())
 	})
 
-	c.OnHTML("option[selected=selected]", func(e *colly.HTMLElement) {
-		if e.Text != "2020/21" {
-			skip = true
+	c.OnHTML("div.kick__vita__statistic", func(e *colly.HTMLElement) {
+		if e.ChildText("option[selected=selected]") != "2020/21" {
+			fmt.Println("No data yet for " + e.Request.Ctx.Get("player") + " this season")
+			return
 		}
-	})
-
-	c.OnHTML("table[data-target=playerstatisticstable]", func(e *colly.HTMLElement) {
-		fmt.Println("found table")
 		e.ForEach("tr", func(_ int, row *colly.HTMLElement) {
 			fmt.Println(row.ChildText("td:nth-child(3)"))
 		})
 	})
 
-	c.Visit("https://www.kicker.de/timo-werner/spieler/bundesliga/2019-20/rb-leipzig")
+	for i := 0; i < len(players.Players); i++ {
+		url := "https://www.kicker.de/" + players.Players[i].KickerName + "/spieler/bundesliga/2020-21/" + players.Players[i].KickerTeam
+		ctx := colly.NewContext()
+		ctx.Put("player", players.Players[i].KickerName)
+		c.Request("GET", url, nil, ctx, nil)
+	}
+
 	c.Wait()
-	return players, nil
+	return nil
 }
 
 func main() {
@@ -65,8 +67,5 @@ func main() {
 	var players Players
 	json.Unmarshal(byteValue, &players)
 
-	for i := 0; i < len(players.Players); i++ {
-		fmt.Println("Player name:", players.Players[i].KickerName)
-		fmt.Println("Player team:", players.Players[i].KickerTeam)
-	}
+	getPdata(players)
 }

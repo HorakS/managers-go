@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strings"
 
 	"github.com/gocolly/colly"
 )
@@ -51,8 +52,30 @@ func getPdata(players []Player) (err error) {
 			fmt.Println("No data yet for " + player.Name + " this season")
 			return
 		}
-		e.ForEach("tr", func(_ int, row *colly.HTMLElement) {
-			fmt.Println(row.ChildText("td:nth-child(3)"))
+
+		bundesliga := false
+		e.ForEachWithBreak("tr", func(_ int, row *colly.HTMLElement) bool {
+			if bundesliga {
+				match := row.ChildText("td:nth-child(1)")
+				if match == "" {
+					return true
+				}
+				if !strings.Contains(match, "Spieltag") {
+					fmt.Println("done with bundesliga")
+					return false
+				}
+				grade := row.ChildText("td:nth-child(2)")
+				scp := row.ChildText("td:nth-child(6)")
+				subIn := row.ChildText("td:nth-child(7)")
+				subOut := row.ChildText("td:nth-child(8)")
+				fmt.Println("Match:", match)
+				fmt.Println("Note:", grade, "SCP:", scp, "in:", subIn, "out:", subOut)
+			}
+			if row.ChildText("td:nth-child(1)") == "Bundesliga" {
+				fmt.Println("Found Bundesliga")
+				bundesliga = true
+			}
+			return true
 		})
 	})
 

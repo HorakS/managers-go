@@ -10,12 +10,29 @@ import (
 	"github.com/gocolly/colly"
 )
 
+type Match struct {
+	Day    int    `json:"day"` // TODO: need better name
+	Team1  string `json:"team1"`
+	Team2  string `json:"team2"`
+	Result string `json:"result"` //TODO: separate struct? Half time result?
+}
+
+type Pdata struct {
+	Match    Match   `json:"match"`
+	Grade    float32 `json:"grade"`
+	Scp      int     `json:"scp"`
+	Playtime int     `json:"playtime"`
+	SubIn    int     `json:"sub-in"`
+	SubOut   int     `json:"sub-out"`
+}
+
 type Player struct {
 	Name       string `json:"name"`
 	Team       string `json:"team"`
 	Position   string `json:"position"`
 	KickerName string `json:"kickerName"`
 	KickerTeam string `json:"kickerTeam"`
+	Data       Pdata  `json:"data"`
 }
 
 func getPdata(players []Player) (err error) {

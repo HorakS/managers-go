@@ -10,16 +10,15 @@ import (
 	"github.com/gocolly/colly"
 )
 
-type Players struct {
-	Players []Player `json:"players"`
-}
-
 type Player struct {
+	Name       string `json:"name"`
+	Team       string `json:"team"`
+	Position   string `json:"position"`
 	KickerName string `json:"kickerName"`
 	KickerTeam string `json:"kickerTeam"`
 }
 
-func getPdata(players Players) (err error) {
+func getPdata(players []Player) (err error) {
 	c := colly.NewCollector(
 		colly.AllowedDomains("www.kicker.de"),
 		colly.Async(true),
@@ -39,10 +38,10 @@ func getPdata(players Players) (err error) {
 		})
 	})
 
-	for i := 0; i < len(players.Players); i++ {
-		url := "https://www.kicker.de/" + players.Players[i].KickerName + "/spieler/bundesliga/2020-21/" + players.Players[i].KickerTeam
+	for i := 0; i < len(players); i++ {
+		url := "https://www.kicker.de/" + players[i].KickerName + "/spieler/bundesliga/2020-21/" + players[i].KickerTeam
 		ctx := colly.NewContext()
-		ctx.Put("player", players.Players[i].KickerName)
+		ctx.Put("player", players[i].KickerName)
 		c.Request("GET", url, nil, ctx, nil)
 	}
 
@@ -54,7 +53,6 @@ func main() {
 	// TODO: pass year/season as flag
 	playersFile := flag.String("players", "players.json", "Json file with all players to be scanned")
 	flag.Parse()
-	fmt.Println(*playersFile)
 
 	jsonFile, err := os.Open(*playersFile)
 	if err != nil {
@@ -64,8 +62,7 @@ func main() {
 	defer jsonFile.Close()
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 
-	var players Players
+	var players []Player
 	json.Unmarshal(byteValue, &players)
-
 	getPdata(players)
 }

@@ -1,284 +1,282 @@
-{
-    "players": [
-        {
-            "name": "Flekken",
-            "team": "SCF",
-            "kickerName": "mark-flekken",
-            "kickerTeam": "sc-freiburg",
-            "position": "T"
-        },
-        {
-            "name": "Zentner",
-            "team": "MAI",
-            "kickerName": "robin-zentner",
-            "kickerTeam": "1-fsv-mainz-05",
-            "position": "T"
-        },
-        {
-            "name": "Boyata",
-            "team": "BSC",
-            "kickerName": "dedryck-boyata",
-            "kickerTeam": "hertha-bsc",
-            "position": "V"
-        },
-        {
-            "name": "Mbabu",
-            "team": "WOL",
-            "kickerName": "kevin-mbabu",
-            "kickerTeam": "vfl-wolfsburg",
-            "position": "V"
-        },
-        {
-            "name": "Gouweleeuw",
-            "team": "FCA",
-            "kickerName": "jeffrey-gouweleeuw",
-            "kickerTeam": "fc-augsburg",
-            "position": "V"
-        },
-        {
-            "name": "Iago",
-            "team": "FCA",
-            "kickerName": "iago-3",
-            "kickerTeam": "fc-augsburg",
-            "position": "V"
-        },
-        {
-            "name": "Posch",
-            "team": "HOF",
-            "kickerName": "stefan-posch",
-            "kickerTeam": "tsg-hoffenheim",
-            "position": "V"
-        },
-        {
-            "name": "Günter",
-            "team": "SCF",
-            "kickerName": "christian-guenter",
-            "kickerTeam": "sc-freiburg",
-            "position": "V"
-        },
-        {
-            "name": "Baku",
-            "team": "MAI",
-            "kickerName": "ridle-baku",
-            "kickerTeam": "1-fsv-mainz-05",
-            "position": "V"
-        },
-        {
-            "name": "Kabak",
-            "team": "S04",
-            "kickerName": "ozan-kabak",
-            "kickerTeam": "fc-schalke-04",
-            "position": "V"
-        },
-        {
-            "name": "Abraham",
-            "team": "FRA",
-            "kickerName": "david-abraham",
-            "kickerTeam": "eintracht-frankfurt",
-            "position": "V"
-        },
-        {
-            "name": "Hasebe",
-            "team": "FRA",
-            "kickerName": "makoto-hasebe",
-            "kickerTeam": "eintracht-frankfurt",
-            "position": "V"
-        },
-        {
-            "name": "Trimmel",
-            "team": "UB",
-            "kickerName": "christopher-trimmel",
-            "kickerTeam": "1-fc-union-berlin",
-            "position": "V"
-        },
-        {
-            "name": "Fein",
-            "team": "FCB",
-            "kickerName": "adrian-fein",
-            "kickerTeam": "fc-bayern-muenchen",
-            "position": "M"
-        },
-        {
-            "name": "Steffen",
-            "team": "WOL",
-            "kickerName": "renato-steffen",
-            "kickerTeam": "vfl-wolfsburg",
-            "position": "M"
-        },
-        {
-            "name": "Mehmedi",
-            "team": "WOL",
-            "kickerName": "admir-mehmedi",
-            "kickerTeam": "vfl-wolfsburg",
-            "position": "M"
-        },
-        {
-            "name": "Vargas",
-            "team": "FCA",
-            "kickerName": "ruben-vargas",
-            "kickerTeam": "fc-augsburg",
-            "position": "M"
-        },
-        {
-            "name": "Samassekou",
-            "team": "HOF",
-            "kickerName": "diadie-samassekou",
-            "kickerTeam": "tsg-hoffenheim",
-            "position": "M"
-        },
-        {
-            "name": "Höfler",
-            "team": "SCF",
-            "kickerName": "nicolas-hoefler",
-            "kickerTeam": "sc-freiburg",
-            "position": "M"
-        },
-        {
-            "name": "Keitel",
-            "team": "SCF",
-            "kickerName": "yannik-keitel",
-            "kickerTeam": "sc-freiburg",
-            "position": "M"
-        },
-        {
-            "name": "Lazaro",
-            "team": "MG",
-            "kickerName": "valentino-lazaro",
-            "kickerTeam": "bor-moenchengladbach",
-            "position": "M"
-        },
-        {
-            "name": "Kunde",
-            "team": "MAI",
-            "kickerName": "kunde",
-            "kickerTeam": "1-fsv-mainz-05",
-            "position": "M"
-        },
-        {
-            "name": "Boujellab",
-            "team": "S04",
-            "kickerName": "nassim-boujellab",
-            "kickerTeam": "fc-schalke-04",
-            "position": "M"
-        },
-        {
-            "name": "Mercan",
-            "team": "S04",
-            "kickerName": "muenir-levent-mercan",
-            "kickerTeam": "fc-schalke-04",
-            "position": "M"
-        },
-        {
-            "name": "Yabo",
-            "team": "AB",
-            "kickerName": "reinhold-yabo",
-            "kickerTeam": "arminia-bielefeld",
-            "position": "M"
-        },
-        {
-            "name": "Egloff",
-            "team": "VFB",
-            "kickerName": "lilian-egloff",
-            "kickerTeam": "vfb-stuttgart",
-            "position": "M"
-        },
-        {
-            "name": "Cissé",
-            "team": "VFB",
-            "kickerName": "momo-cisse",
-            "kickerTeam": "vfb-stuttgart",
-            "position": "M"
-        },
-        {
-            "name": "Amiri",
-            "team": "LEV",
-            "kickerName": "nadiem-amiri",
-            "kickerTeam": "bayer-04-leverkusen",
-            "position": "M"
-        },
-        {
-            "name": "Reinier",
-            "team": "BVB",
-            "kickerName": "reinier",
-            "kickerTeam": "borussia-dortmund",
-            "position": "M"
-        },
-        {
-            "name": "Ilsanker",
-            "team": "FRA",
-            "kickerName": "stefan-ilsanker",
-            "kickerTeam": "eintracht-frankfurt",
-            "position": "M"
-        },
-        {
-            "name": "Kostic",
-            "team": "FRA",
-            "kickerName": "filip-kostic",
-            "kickerTeam": "eintracht-frankfurt",
-            "position": "M"
-        },
-        {
-            "name": "Erras",
-            "team": "SVW",
-            "kickerName": "patrick-erras",
-            "kickerTeam": "werder-bremen",
-            "position": "M"
-        },
-        {
-            "name": "Redan",
-            "team": "BSC",
-            "kickerName": "daishawn-redan",
-            "kickerTeam": "hertha-bsc",
-            "position": "S"
-        },
-        {
-            "name": "Kramaric",
-            "team": "HOF",
-            "kickerName": "andrej-kramaric",
-            "kickerTeam": "tsg-hoffenheim",
-            "position": "S"
-        },
-        {
-            "name": "Höler",
-            "team": "SCF",
-            "kickerName": "lucas-hoeler",
-            "kickerTeam": "sc-freiburg",
-            "position": "S"
-        },
-        {
-            "name": "Poulsen",
-            "team": "RB",
-            "kickerName": "yussuf-poulsen",
-            "kickerTeam": "rb-leipzig",
-            "position": "S"
-        },
-        {
-            "name": "Kutucu",
-            "team": "S04",
-            "kickerName": "ahmed-kutucu",
-            "kickerTeam": "fc-schalke-04",
-            "position": "S"
-        },
-        {
-            "name": "Voglsammer",
-            "team": "AB",
-            "kickerName": "andreas-voglsammer",
-            "kickerTeam": "arminia-bielefeld",
-            "position": "S"
-        },
-        {
-            "name": "Kalajdzic",
-            "team": "VFB",
-            "kickerName": "sasa-kalajdzic",
-            "kickerTeam": "vfb-stuttgart",
-            "position": "S"
-        },
-        {
-            "name": "Füllkrug",
-            "team": "SVW",
-            "kickerName": "niclas-fuellkrug",
-            "kickerTeam": "werder-bremen",
-            "position": "S"
-        }
-    ]
-}
+[        
+    {
+        "name": "Flekken",
+        "team": "SCF",
+        "kickerName": "mark-flekken",
+        "kickerTeam": "sc-freiburg",
+        "position": "T"
+    },
+    {
+        "name": "Zentner",
+        "team": "MAI",
+        "kickerName": "robin-zentner",
+        "kickerTeam": "1-fsv-mainz-05",
+        "position": "T"
+    },
+    {
+        "name": "Boyata",
+        "team": "BSC",
+        "kickerName": "dedryck-boyata",
+        "kickerTeam": "hertha-bsc",
+        "position": "V"
+    },
+    {
+        "name": "Mbabu",
+        "team": "WOL",
+        "kickerName": "kevin-mbabu",
+        "kickerTeam": "vfl-wolfsburg",
+        "position": "V"
+    },
+    {
+        "name": "Gouweleeuw",
+        "team": "FCA",
+        "kickerName": "jeffrey-gouweleeuw",
+        "kickerTeam": "fc-augsburg",
+        "position": "V"
+    },
+    {
+        "name": "Iago",
+        "team": "FCA",
+        "kickerName": "iago-3",
+        "kickerTeam": "fc-augsburg",
+        "position": "V"
+    },
+    {
+        "name": "Posch",
+        "team": "HOF",
+        "kickerName": "stefan-posch",
+        "kickerTeam": "tsg-hoffenheim",
+        "position": "V"
+    },
+    {
+        "name": "Günter",
+        "team": "SCF",
+        "kickerName": "christian-guenter",
+        "kickerTeam": "sc-freiburg",
+        "position": "V"
+    },
+    {
+        "name": "Baku",
+        "team": "MAI",
+        "kickerName": "ridle-baku",
+        "kickerTeam": "1-fsv-mainz-05",
+        "position": "V"
+    },
+    {
+        "name": "Kabak",
+        "team": "S04",
+        "kickerName": "ozan-kabak",
+        "kickerTeam": "fc-schalke-04",
+        "position": "V"
+    },
+    {
+        "name": "Abraham",
+        "team": "FRA",
+        "kickerName": "david-abraham",
+        "kickerTeam": "eintracht-frankfurt",
+        "position": "V"
+    },
+    {
+        "name": "Hasebe",
+        "team": "FRA",
+        "kickerName": "makoto-hasebe",
+        "kickerTeam": "eintracht-frankfurt",
+        "position": "V"
+    },
+    {
+        "name": "Trimmel",
+        "team": "UB",
+        "kickerName": "christopher-trimmel",
+        "kickerTeam": "1-fc-union-berlin",
+        "position": "V"
+    },
+    {
+        "name": "Fein",
+        "team": "FCB",
+        "kickerName": "adrian-fein",
+        "kickerTeam": "fc-bayern-muenchen",
+        "position": "M"
+    },
+    {
+        "name": "Steffen",
+        "team": "WOL",
+        "kickerName": "renato-steffen",
+        "kickerTeam": "vfl-wolfsburg",
+        "position": "M"
+    },
+    {
+        "name": "Mehmedi",
+        "team": "WOL",
+        "kickerName": "admir-mehmedi",
+        "kickerTeam": "vfl-wolfsburg",
+        "position": "M"
+    },
+    {
+        "name": "Vargas",
+        "team": "FCA",
+        "kickerName": "ruben-vargas",
+        "kickerTeam": "fc-augsburg",
+        "position": "M"
+    },
+    {
+        "name": "Samassekou",
+        "team": "HOF",
+        "kickerName": "diadie-samassekou",
+        "kickerTeam": "tsg-hoffenheim",
+        "position": "M"
+    },
+    {
+        "name": "Höfler",
+        "team": "SCF",
+        "kickerName": "nicolas-hoefler",
+        "kickerTeam": "sc-freiburg",
+        "position": "M"
+    },
+    {
+        "name": "Keitel",
+        "team": "SCF",
+        "kickerName": "yannik-keitel",
+        "kickerTeam": "sc-freiburg",
+        "position": "M"
+    },
+    {
+        "name": "Lazaro",
+        "team": "MG",
+        "kickerName": "valentino-lazaro",
+        "kickerTeam": "bor-moenchengladbach",
+        "position": "M"
+    },
+    {
+        "name": "Kunde",
+        "team": "MAI",
+        "kickerName": "kunde",
+        "kickerTeam": "1-fsv-mainz-05",
+        "position": "M"
+    },
+    {
+        "name": "Boujellab",
+        "team": "S04",
+        "kickerName": "nassim-boujellab",
+        "kickerTeam": "fc-schalke-04",
+        "position": "M"
+    },
+    {
+        "name": "Mercan",
+        "team": "S04",
+        "kickerName": "muenir-levent-mercan",
+        "kickerTeam": "fc-schalke-04",
+        "position": "M"
+    },
+    {
+        "name": "Yabo",
+        "team": "AB",
+        "kickerName": "reinhold-yabo",
+        "kickerTeam": "arminia-bielefeld",
+        "position": "M"
+    },
+    {
+        "name": "Egloff",
+        "team": "VFB",
+        "kickerName": "lilian-egloff",
+        "kickerTeam": "vfb-stuttgart",
+        "position": "M"
+    },
+    {
+        "name": "Cissé",
+        "team": "VFB",
+        "kickerName": "momo-cisse",
+        "kickerTeam": "vfb-stuttgart",
+        "position": "M"
+    },
+    {
+        "name": "Amiri",
+        "team": "LEV",
+        "kickerName": "nadiem-amiri",
+        "kickerTeam": "bayer-04-leverkusen",
+        "position": "M"
+    },
+    {
+        "name": "Reinier",
+        "team": "BVB",
+        "kickerName": "reinier",
+        "kickerTeam": "borussia-dortmund",
+        "position": "M"
+    },
+    {
+        "name": "Ilsanker",
+        "team": "FRA",
+        "kickerName": "stefan-ilsanker",
+        "kickerTeam": "eintracht-frankfurt",
+        "position": "M"
+    },
+    {
+        "name": "Kostic",
+        "team": "FRA",
+        "kickerName": "filip-kostic",
+        "kickerTeam": "eintracht-frankfurt",
+        "position": "M"
+    },
+    {
+        "name": "Erras",
+        "team": "SVW",
+        "kickerName": "patrick-erras",
+        "kickerTeam": "werder-bremen",
+        "position": "M"
+    },
+    {
+        "name": "Redan",
+        "team": "BSC",
+        "kickerName": "daishawn-redan",
+        "kickerTeam": "hertha-bsc",
+        "position": "S"
+    },
+    {
+        "name": "Kramaric",
+        "team": "HOF",
+        "kickerName": "andrej-kramaric",
+        "kickerTeam": "tsg-hoffenheim",
+        "position": "S"
+    },
+    {
+        "name": "Höler",
+        "team": "SCF",
+        "kickerName": "lucas-hoeler",
+        "kickerTeam": "sc-freiburg",
+        "position": "S"
+    },
+    {
+        "name": "Poulsen",
+        "team": "RB",
+        "kickerName": "yussuf-poulsen",
+        "kickerTeam": "rb-leipzig",
+        "position": "S"
+    },
+    {
+        "name": "Kutucu",
+        "team": "S04",
+        "kickerName": "ahmed-kutucu",
+        "kickerTeam": "fc-schalke-04",
+        "position": "S"
+    },
+    {
+        "name": "Voglsammer",
+        "team": "AB",
+        "kickerName": "andreas-voglsammer",
+        "kickerTeam": "arminia-bielefeld",
+        "position": "S"
+    },
+    {
+        "name": "Kalajdzic",
+        "team": "VFB",
+        "kickerName": "sasa-kalajdzic",
+        "kickerTeam": "vfb-stuttgart",
+        "position": "S"
+    },
+    {
+        "name": "Füllkrug",
+        "team": "SVW",
+        "kickerName": "niclas-fuellkrug",
+        "kickerTeam": "werder-bremen",
+        "position": "S"
+    }
+]

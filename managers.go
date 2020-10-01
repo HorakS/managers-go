@@ -6,25 +6,26 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/gocolly/colly"
 )
 
 type Match struct {
-	Day    int    `json:"day"` // TODO: need better name
-	Team1  string `json:"team1"`
-	Team2  string `json:"team2"`
-	Result string `json:"result"` //TODO: separate struct? Half time result?
+	HomeTeam      string `json:"homeTeam"`
+	GuestTeam     string `json:"guestTeam"`
+	EndScore      string `json:"endScore"`
+	HalftimeScore string `json:"halftimeScore"`
 }
 
 type Pdata struct {
-	Match    Match   `json:"match"`
-	Grade    float32 `json:"grade"`
+	Matchday int     `json:"matchDay"`
+	Grade    float64 `json:"grade"`
 	Scp      int     `json:"scp"`
 	Playtime int     `json:"playtime"`
-	SubIn    int     `json:"sub-in"`
-	SubOut   int     `json:"sub-out"`
+	SubIn    int     `json:"subIn"`
+	SubOut   int     `json:"subOut"`
 }
 
 type Player struct {
@@ -70,12 +71,7 @@ func getPdata(players []Player) (err error) {
 				return false
 			}
 
-			grade := row.ChildText("td:nth-child(2)")
-			scp := row.ChildText("td:nth-child(6)")
-			subIn := row.ChildText("td:nth-child(7)")
-			subOut := row.ChildText("td:nth-child(8)")
-			fmt.Println("Match:", match)
-			fmt.Println("Note:", grade, "SCP:", scp, "in:", subIn, "out:", subOut)
+			parsePdata(row)
 
 			return true
 		})
@@ -90,6 +86,32 @@ func getPdata(players []Player) (err error) {
 
 	c.Wait()
 	return nil
+}
+
+func parsePdata(row *colly.HTMLElement) (pData *Pdata) {
+	data := new(Pdata)
+	matchInfo := row.ChildText("div.kick__vita__statistic--table-second_dateinfo")
+	matchDay, _ := strconv.Atoi(strings.Split(matchInfo, ".")[0])
+	teams := row.ChildTexts("div.kick__v100-gameCell__team__name")
+	// TODO: Instead extract kicker team names from hrefs?
+	homeTeam := teams[0]
+	guestTeam := teams[1]
+	scores := row.ChildTexts("div.kick__v100-scoreBoard__scoreHolder__score")
+	endScore := scores[0] + ":" + scores[1]
+	halfTimeScore := scores[2] + ":" + scores[3]
+
+	var err error
+	data.Grade, _ = strconv.ParseFloat(strings.ReplaceAll(row.ChildText("td:nth-child(2)"), ",", "."), 64)
+	data.Scp, _ = strconv.Atoi(row.ChildText("td:nth-child(6)"))
+	data.SubIn, _ = strconv.Atoi(row.ChildText("td:nth-child(7"))
+	data.SubOut, err = strconv.Atoi(row.ChildText("td:nth-child(8)"))
+	if err != nil {
+		data.SubOut = 90
+	}
+	data.Playtime = data.SubOut - data.SubIn
+
+	fmt.Println(matchDay, "-", homeTeam, "vs", guestTeam, endScore, "(", halfTimeScore, ")")
+	return data
 }
 
 func main() {

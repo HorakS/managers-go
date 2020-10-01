@@ -46,8 +46,9 @@ func getPdata(players []Player) (err error) {
 	})
 
 	c.OnHTML("div.kick__vita__statistic", func(e *colly.HTMLElement) {
+		player := e.Request.Ctx.GetAny("player").(Player)
 		if e.ChildText("option[selected=selected]") != "2020/21" {
-			fmt.Println("No data yet for " + e.Request.Ctx.Get("player") + " this season")
+			fmt.Println("No data yet for " + player.Name + " this season")
 			return
 		}
 		e.ForEach("tr", func(_ int, row *colly.HTMLElement) {
@@ -58,7 +59,7 @@ func getPdata(players []Player) (err error) {
 	for i := 0; i < len(players); i++ {
 		url := "https://www.kicker.de/" + players[i].KickerName + "/spieler/bundesliga/2020-21/" + players[i].KickerTeam
 		ctx := colly.NewContext()
-		ctx.Put("player", players[i].KickerName)
+		ctx.Put("player", players[i])
 		c.Request("GET", url, nil, ctx, nil)
 	}
 

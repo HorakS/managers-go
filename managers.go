@@ -20,7 +20,7 @@ type Match struct {
 }
 
 type Pdata struct {
-	Matchday int     `json:"matchDay"`
+	Match    Match   `json:"match"`
 	Grade    float64 `json:"grade"`
 	Scp      int     `json:"scp"`
 	Playtime int     `json:"playtime"`
@@ -29,12 +29,16 @@ type Pdata struct {
 }
 
 type Player struct {
-	Name       string `json:"name"`
-	Team       string `json:"team"`
-	Position   string `json:"position"`
-	KickerName string `json:"kickerName"`
-	KickerTeam string `json:"kickerTeam"`
-	Data       Pdata  `json:"data"`
+	Name       string        `json:"name"`
+	Team       string        `json:"team"`
+	Position   string        `json:"position"`
+	KickerName string        `json:"kickerName"`
+	KickerTeam string        `json:"kickerTeam"`
+	Data       map[int]Pdata `json:"data"`
+}
+
+func (m Match) String() string {
+	return fmt.Sprintf("%v %v (%v) %v", m.HomeTeam, m.EndScore, m.HalftimeScore, m.GuestTeam)
 }
 
 func getPdata(players []Player) (err error) {
@@ -71,8 +75,8 @@ func getPdata(players []Player) (err error) {
 				return false
 			}
 
-			parsePdata(row)
-
+			matchday, data := parsePdata(row)
+			fmt.Println(matchday, data.Match)
 			return true
 		})
 	})
@@ -88,17 +92,19 @@ func getPdata(players []Player) (err error) {
 	return nil
 }
 
-func parsePdata(row *colly.HTMLElement) (pData *Pdata) {
+func parsePdata(row *colly.HTMLElement) (matchDay int, pData *Pdata) {
 	data := new(Pdata)
+	match := new(Match)
 	matchInfo := row.ChildText("div.kick__vita__statistic--table-second_dateinfo")
-	matchDay, _ := strconv.Atoi(strings.Split(matchInfo, ".")[0])
+	matchDay, _ = strconv.Atoi(strings.Split(matchInfo, ".")[0])
 	teams := row.ChildTexts("div.kick__v100-gameCell__team__name")
 	// TODO: Instead extract kicker team names from hrefs?
-	homeTeam := teams[0]
-	guestTeam := teams[1]
+	match.HomeTeam = teams[0]
+	match.GuestTeam = teams[1]
+
 	scores := row.ChildTexts("div.kick__v100-scoreBoard__scoreHolder__score")
-	endScore := scores[0] + ":" + scores[1]
-	halfTimeScore := scores[2] + ":" + scores[3]
+	match.EndScore = scores[0] + ":" + scores[1]
+	match.HalftimeScore = scores[2] + ":" + scores[3]
 
 	var err error
 	data.Grade, _ = strconv.ParseFloat(strings.ReplaceAll(row.ChildText("td:nth-child(2)"), ",", "."), 64)
@@ -109,9 +115,9 @@ func parsePdata(row *colly.HTMLElement) (pData *Pdata) {
 		data.SubOut = 90
 	}
 	data.Playtime = data.SubOut - data.SubIn
+	data.Match = *match
 
-	fmt.Println(matchDay, "-", homeTeam, "vs", guestTeam, endScore, "(", halfTimeScore, ")")
-	return data
+	return matchDay, data
 }
 
 func main() {

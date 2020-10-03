@@ -52,7 +52,9 @@ func getPdata(players []Player) (err error) {
 	})
 
 	c.OnHTML("div.kick__vita__statistic", func(e *colly.HTMLElement) {
-		player := e.Request.Ctx.GetAny("player").(Player)
+		player := e.Request.Ctx.GetAny("player").(*Player)
+		player.Data = make(map[int]Pdata)
+
 		if e.ChildText("option[selected=selected]") != "2020/21" {
 			fmt.Println("No data yet for " + player.Name + " this season")
 			return
@@ -76,7 +78,7 @@ func getPdata(players []Player) (err error) {
 			}
 
 			matchday, data := parsePdata(row)
-			fmt.Println(matchday, data.Match)
+			player.Data[matchday] = *data
 			return true
 		})
 	})
@@ -84,11 +86,12 @@ func getPdata(players []Player) (err error) {
 	for i := 0; i < len(players); i++ {
 		url := "https://www.kicker.de/" + players[i].KickerName + "/spieler/bundesliga/2020-21/" + players[i].KickerTeam
 		ctx := colly.NewContext()
-		ctx.Put("player", players[i])
+		ctx.Put("player", &players[i])
 		c.Request("GET", url, nil, ctx, nil)
 	}
 
 	c.Wait()
+
 	return nil
 }
 
@@ -136,4 +139,7 @@ func main() {
 	var players []Player
 	json.Unmarshal(byteValue, &players)
 	getPdata(players)
+
+	jsonString, _ := json.MarshalIndent(players, "", " ")
+	ioutil.WriteFile("playerdata.json", jsonString, os.ModePerm)
 }

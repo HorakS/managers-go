@@ -35,7 +35,7 @@ type Player struct {
 	Position   string         `json:"position"`
 	KickerName string         `json:"kickerName"`
 	KickerTeam string         `json:"kickerTeam"`
-	Data       map[int]*Pdata `json:"data"`
+	Matches    map[int]*Pdata `json:"matches"`
 }
 
 func (m Match) String() string {
@@ -54,7 +54,7 @@ func getPdata(players []Player) (err error) {
 
 	c.OnHTML("div.kick__vita__statistic", func(e *colly.HTMLElement) {
 		player := e.Request.Ctx.GetAny("player").(*Player)
-		player.Data = make(map[int]*Pdata)
+		player.Matches = make(map[int]*Pdata)
 
 		if e.ChildText("option[selected=selected]") != "2020/21" {
 			fmt.Println("No data yet for " + player.Name + " this season")
@@ -79,7 +79,7 @@ func getPdata(players []Player) (err error) {
 			}
 
 			matchday, data := parsePdata(row)
-			player.Data[matchday] = data
+			player.Matches[matchday] = data
 			return true
 		})
 	})
@@ -126,7 +126,7 @@ func getTop11Data(players []Player) (err error) {
 	for _, player := range players {
 		if val, ok := top11s[player.KickerName]; ok {
 			for _, matchday := range val {
-				player.Data[*matchday].Top11 = true
+				player.Matches[*matchday].Top11 = true
 			}
 		}
 	}
@@ -182,6 +182,9 @@ func main() {
 	getPdata(players)
 	getTop11Data(players)
 
-	jsonString, _ := json.MarshalIndent(players, "", " ")
+	jsonString, err := json.MarshalIndent(players, "", " ")
+	if err != nil {
+		fmt.Println(err)
+	}
 	ioutil.WriteFile("playerdata.json", jsonString, os.ModePerm)
 }

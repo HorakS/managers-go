@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -36,6 +37,14 @@ type Player struct {
 	KickerName string         `json:"kickerName"`
 	KickerTeam string         `json:"kickerTeam"`
 	Matches    map[int]*Pdata `json:"matches"`
+	Average    Average        `json:"average"`
+}
+
+type Average struct {
+	Grade    float64 `json:"grade"`
+	Scp      int     `json:"scp"`
+	Playtime int     `json:"playtime"`
+	Top11    int     `json:"top11"`
 }
 
 func (m Match) String() string {
@@ -93,7 +102,48 @@ func getPdata(players []Player) (err error) {
 
 	c.Wait()
 
+	for _, player := range players {
+		avg, err := getAverageData(player.Matches)
+		if err == nil {
+			player.Average = *avg
+		}
+	}
 	return nil
+}
+
+func getAverageData(data map[int]*Pdata) (avg *Average, err error) {
+	matches := len(data)
+	avg = new(Average)
+	if matches == 0 {
+		return avg, errors.New("No data")
+	}
+
+	gradedMatches := 0.0
+	scp := 0
+	playtime := 0
+	grade := 0.0
+	top11 := 0
+	for _, match := range data {
+		scp += match.Scp
+		playtime += match.Playtime
+		if match.Grade != 0 {
+			grade += match.Grade
+			gradedMatches += 1
+		}
+		if match.Top11 {
+			top11 += 1
+		}
+	}
+	if gradedMatches == 0.0 {
+		avg.Grade = 0.0
+	} else {
+		avg.Grade = grade / gradedMatches
+	}
+
+	avg.Scp = scp / matches
+	avg.Playtime = playtime / matches
+	avg.Top11 = top11
+	return avg, nil
 }
 
 func getTop11Data(players []Player) (err error) {

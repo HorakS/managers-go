@@ -152,8 +152,8 @@ func parsePdata(row *colly.HTMLElement) (matchDay int, pData *Pdata) {
 	var err error
 	data.Grade, _ = strconv.ParseFloat(strings.ReplaceAll(row.ChildText("td:nth-child(2)"), ",", "."), 64)
 	data.Scp, _ = strconv.Atoi(row.ChildText("td:nth-child(6)"))
-	data.SubIn, _ = strconv.Atoi(row.ChildText("td:nth-child(7"))
-	data.SubOut, err = strconv.Atoi(row.ChildText("td:nth-child(8)"))
+	data.SubIn, _ = strconv.Atoi(strings.ReplaceAll(row.ChildText("td:nth-child(7)"), ".", ""))
+	data.SubOut, err = strconv.Atoi(strings.ReplaceAll(row.ChildText("td:nth-child(8)"), ".", ""))
 	if err != nil {
 		data.SubOut = 90
 	}

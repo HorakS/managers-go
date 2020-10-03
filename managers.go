@@ -26,15 +26,16 @@ type Pdata struct {
 	Playtime int     `json:"playtime"`
 	SubIn    int     `json:"subIn"`
 	SubOut   int     `json:"subOut"`
+	Top11    bool    `json:"top11"`
 }
 
 type Player struct {
-	Name       string        `json:"name"`
-	Team       string        `json:"team"`
-	Position   string        `json:"position"`
-	KickerName string        `json:"kickerName"`
-	KickerTeam string        `json:"kickerTeam"`
-	Data       map[int]Pdata `json:"data"`
+	Name       string         `json:"name"`
+	Team       string         `json:"team"`
+	Position   string         `json:"position"`
+	KickerName string         `json:"kickerName"`
+	KickerTeam string         `json:"kickerTeam"`
+	Data       map[int]*Pdata `json:"data"`
 }
 
 func (m Match) String() string {
@@ -48,12 +49,12 @@ func getPdata(players []Player) (err error) {
 	)
 
 	c.OnRequest(func(r *colly.Request) {
-		fmt.Println("visiting", r.URL.String())
+		fmt.Println("Visiting", r.URL.String())
 	})
 
 	c.OnHTML("div.kick__vita__statistic", func(e *colly.HTMLElement) {
 		player := e.Request.Ctx.GetAny("player").(*Player)
-		player.Data = make(map[int]Pdata)
+		player.Data = make(map[int]*Pdata)
 
 		if e.ChildText("option[selected=selected]") != "2020/21" {
 			fmt.Println("No data yet for " + player.Name + " this season")
@@ -78,14 +79,14 @@ func getPdata(players []Player) (err error) {
 			}
 
 			matchday, data := parsePdata(row)
-			player.Data[matchday] = *data
+			player.Data[matchday] = data
 			return true
 		})
 	})
 
 	for i := 0; i < len(players); i++ {
-		url := "https://www.kicker.de/" + players[i].KickerName + "/spieler/bundesliga/2020-21/" + players[i].KickerTeam
 		ctx := colly.NewContext()
+		url := "https://www.kicker.de/" + players[i].KickerName + "/spieler/bundesliga/2020-21/" + players[i].KickerTeam
 		ctx.Put("player", &players[i])
 		c.Request("GET", url, nil, ctx, nil)
 	}
@@ -95,9 +96,48 @@ func getPdata(players []Player) (err error) {
 	return nil
 }
 
+func getTop11Data(players []Player) (err error) {
+	top11s := make(map[string][]*int)
+
+	c := colly.NewCollector(
+		colly.AllowedDomains("www.kicker.de"),
+		colly.Async(true),
+	)
+
+	c.OnRequest(func(r *colly.Request) {
+		fmt.Println("Visiting", r.URL.String())
+	})
+
+	c.OnHTML("a.kick__lineup-player-card", func(e *colly.HTMLElement) {
+		player := strings.Split(e.Attr("href"), "/")[1]
+		matchday := e.Request.Ctx.GetAny("matchday").(int)
+		top11s[player] = append(top11s[player], &matchday)
+	})
+
+	for i := 1; i < 35; i++ {
+		url := "https://www.kicker.de/bundesliga/elf-des-tages/2020-21/" + strconv.Itoa(i)
+		ctx := colly.NewContext()
+		ctx.Put("matchday", i)
+		c.Request("GET", url, nil, ctx, nil)
+	}
+
+	c.Wait()
+
+	for _, player := range players {
+		if val, ok := top11s[player.KickerName]; ok {
+			for _, matchday := range val {
+				player.Data[*matchday].Top11 = true
+			}
+		}
+	}
+
+	return nil
+}
+
 func parsePdata(row *colly.HTMLElement) (matchDay int, pData *Pdata) {
 	data := new(Pdata)
 	match := new(Match)
+
 	matchInfo := row.ChildText("div.kick__vita__statistic--table-second_dateinfo")
 	matchDay, _ = strconv.Atoi(strings.Split(matchInfo, ".")[0])
 	teams := row.ChildTexts("div.kick__v100-gameCell__team__name")
@@ -119,6 +159,7 @@ func parsePdata(row *colly.HTMLElement) (matchDay int, pData *Pdata) {
 	}
 	data.Playtime = data.SubOut - data.SubIn
 	data.Match = *match
+	data.Top11 = false // default Top11 is false, may get changed to true later
 
 	return matchDay, data
 }
@@ -139,6 +180,7 @@ func main() {
 	var players []Player
 	json.Unmarshal(byteValue, &players)
 	getPdata(players)
+	getTop11Data(players)
 
 	jsonString, _ := json.MarshalIndent(players, "", " ")
 	ioutil.WriteFile("playerdata.json", jsonString, os.ModePerm)

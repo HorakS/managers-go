@@ -103,12 +103,13 @@ func getPdata(players []Player) (err error) {
 
 	c.Wait()
 
-	for _, player := range players {
-		avg, err := getAverageData(player.Matches)
+	for i := 0; i < len(players); i++ {
+		avg, err := getAverageData(players[i].Matches)
 		if err == nil {
-			player.Average = *avg
+			players[i].Average = *avg
 		}
 	}
+
 	return nil
 }
 

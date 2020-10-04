@@ -79,7 +79,8 @@ func getPdata(players []Player) (err error) {
 				return true
 			}
 
-			if !bundesliga || match == "" {
+			noplay := row.ChildText("td.kick__vita__statistic--table-second_noplay") == "ohne Einsatz im Kader"
+			if !bundesliga || match == "" || noplay {
 				return true
 			}
 

@@ -51,6 +51,10 @@ func (m Match) String() string {
 	return fmt.Sprintf("%v %v (%v) %v", m.HomeTeam, m.EndScore, m.HalftimeScore, m.GuestTeam)
 }
 
+func (d Pdata) String() string {
+	return fmt.Sprintf("Grade: %v, Scp: %v, Playtime: %v, SubIn: %v, SubOut: %v, Top11: %v", d.Grade, d.Scp, d.Playtime, d.SubIn, d.SubOut, d.Top11)
+}
+
 func getPdata(players []Player) (err error) {
 	c := colly.NewCollector(
 		colly.AllowedDomains("www.kicker.de"),

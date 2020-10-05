@@ -108,13 +108,6 @@ func getPdata(players []Player) (err error) {
 
 	c.Wait()
 
-	for i := 0; i < len(players); i++ {
-		avg, err := getAverageData(players[i].Matches)
-		if err == nil {
-			players[i].Average = *avg
-		}
-	}
-
 	return nil
 }
 
@@ -274,6 +267,13 @@ func main() {
 	json.Unmarshal(byteValue, &players)
 	getPdata(players)
 	getTop11Data(players)
+
+	for i := 0; i < len(players); i++ {
+		avg, err := getAverageData(players[i].Matches)
+		if err == nil {
+			players[i].Average = *avg
+		}
+	}
 
 	jsonString, err := json.MarshalIndent(players, "", " ")
 	if err != nil {

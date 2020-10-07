@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/csv"
 	"encoding/json"
 	"errors"
 	"flag"
@@ -233,42 +232,6 @@ func getTop11Data(players []Player) (err error) {
 	return nil
 }
 
-func writeCsv(players []Player) (err error) {
-	file, err := os.Create("playerdata.csv")
-	if err != nil {
-		fmt.Println(err)
-	}
-	defer file.Close()
-
-	writer := csv.NewWriter(file)
-
-	rows := [][]string{{""}, {""}}
-	subheaders := []string{"Note", "SCP", "Spielzeit", "11 des Tages"}
-	summary := []string{"Summary"}
-	for _, p := range players {
-		rows[0] = append(rows[0], p.Name, p.Team, p.Position, "")
-		rows[1] = append(rows[1], subheaders...)
-		summary = append(summary, fmt.Sprintf("%.2f", p.Average.Grade), strconv.Itoa(p.Average.Scp), strconv.Itoa(p.Average.Playtime), strconv.Itoa(p.Average.Top11))
-	}
-
-	for i := 1; i < 35; i++ {
-		row := []string{strconv.Itoa(i)}
-		for _, p := range players {
-			if m, ok := p.Matches[i]; ok {
-				row = append(row, fmt.Sprintf("%.1f", m.Grade), strconv.Itoa(m.Scp), strconv.Itoa(m.Playtime), strconv.FormatBool(m.Top11))
-			} else {
-				row = append(row, "-", "-", "-", "-")
-			}
-		}
-		rows = append(rows, row)
-	}
-	rows = append(rows, summary)
-
-	writer.WriteAll(rows)
-	writer.Flush()
-	return nil
-}
-
 func main() {
 	// TODO: pass year/season as flag
 	playersFile := flag.String("players", "players.json", "Json file with all players to be scanned")
@@ -301,8 +264,6 @@ func main() {
 			fmt.Println(err)
 		}
 		ioutil.WriteFile("playerdata.json", jsonString, os.ModePerm)
-		writeCsv(players)
-
 	} else {
 		jsonFile, err := os.Open("playerdata.json")
 		if err != nil {

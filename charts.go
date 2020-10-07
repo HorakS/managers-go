@@ -14,6 +14,35 @@ import (
 	"github.com/go-echarts/go-echarts/charts"
 )
 
+func goalsHeat(matchdays []int, players []Player) *charts.HeatMap {
+	names := make([]string, len(players))
+	data := make([][3]interface{}, 0)
+	maxGoals := 0.0
+	for i, p := range players {
+		names[i] = fmt.Sprintf("%v (%v)", p.Name, p.Team)
+		for j, m := range p.Matches {
+			if m.ConcededGoals != 99 {
+				data = append(data, [3]interface{}{int(j) - 1, i, m.ConcededGoals})
+				if m.ConcededGoals > maxGoals {
+					maxGoals = m.ConcededGoals
+				}
+			}
+		}
+	}
+
+	hm := charts.NewHeatMap()
+	hm.SetGlobalOptions(charts.TitleOpts{Title: "Gegentore"}, charts.InitOpts{Height: "800px", Width: "1200px"})
+
+	hm.AddXAxis(matchdays).AddYAxis("Gegentore", data)
+	hm.SetGlobalOptions(
+		charts.YAxisOpts{Data: names, Type: "category", SplitArea: charts.SplitAreaOpts{Show: true}},
+		charts.XAxisOpts{Type: "category", SplitArea: charts.SplitAreaOpts{Show: true}},
+		charts.VisualMapOpts{Calculable: true, Max: float32(maxGoals), Min: 0.0, InRange: charts.VMInRange{Color: []string{"#40b860", "#f7eb83", "#d6454e"}}},
+	)
+
+	return hm
+}
+
 func scpHeat(matchdays []int, players []Player) *charts.HeatMap {
 	names := make([]string, len(players))
 	data := make([][3]interface{}, 0)
@@ -138,6 +167,7 @@ func handler(w http.ResponseWriter, _ *http.Request) {
 		scpHeat(matchdays, players),
 		playtimeHeat(matchdays, players),
 		gradeHeat(matchdays, players),
+		goalsHeat(matchdays, players),
 		top11Heat(matchdays, players),
 	)
 

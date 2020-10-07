@@ -272,33 +272,47 @@ func writeCsv(players []Player) (err error) {
 func main() {
 	// TODO: pass year/season as flag
 	playersFile := flag.String("players", "players.json", "Json file with all players to be scanned")
+	gen := flag.Bool("gen", true, "Generate new playerdata.json")
 	flag.Parse()
 
-	jsonFile, err := os.Open(*playersFile)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	defer jsonFile.Close()
-	byteValue, _ := ioutil.ReadAll(jsonFile)
-
 	var players []Player
-	json.Unmarshal(byteValue, &players)
-	getPdata(players)
-	getTop11Data(players)
-
-	for i := 0; i < len(players); i++ {
-		avg, err := getAverageData(players[i].Matches)
-		if err == nil {
-			players[i].Average = *avg
+	if *gen {
+		jsonFile, err := os.Open(*playersFile)
+		if err != nil {
+			fmt.Println(err)
 		}
+
+		defer jsonFile.Close()
+		byteValue, _ := ioutil.ReadAll(jsonFile)
+
+		json.Unmarshal(byteValue, &players)
+		getPdata(players)
+		getTop11Data(players)
+
+		for i := 0; i < len(players); i++ {
+			avg, err := getAverageData(players[i].Matches)
+			if err == nil {
+				players[i].Average = *avg
+			}
+		}
+
+		jsonString, err := json.MarshalIndent(players, "", " ")
+		if err != nil {
+			fmt.Println(err)
+		}
+		ioutil.WriteFile("playerdata.json", jsonString, os.ModePerm)
+		writeCsv(players)
+
+	} else {
+		jsonFile, err := os.Open("playerdata.json")
+		if err != nil {
+			fmt.Println(err)
+		}
+		defer jsonFile.Close()
+		byteValue, _ := ioutil.ReadAll(jsonFile)
+
+		json.Unmarshal(byteValue, &players)
 	}
 
-	jsonString, err := json.MarshalIndent(players, "", " ")
-	if err != nil {
-		fmt.Println(err)
-	}
-	ioutil.WriteFile("playerdata.json", jsonString, os.ModePerm)
-
-	writeCsv(players)
+	serveCharts()
 }

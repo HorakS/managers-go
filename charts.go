@@ -14,17 +14,12 @@ import (
 	"github.com/go-echarts/go-echarts/charts"
 )
 
-func scpHeat(players []Player) *charts.HeatMap {
-	matchdays := make([]int, 34)
-	for i := range matchdays {
-		matchdays[i] = 1 + i
-	}
-
+func scpHeat(matchdays []int, players []Player) *charts.HeatMap {
 	names := make([]string, len(players))
 	data := make([][3]interface{}, 0)
 	maxScp := 0
 	for i, p := range players {
-		names[i] = p.Name
+		names[i] = fmt.Sprintf("%v (%v)", p.Name, p.Team)
 		for j, m := range p.Matches {
 			data = append(data, [3]interface{}{int(j) - 1, i, m.Scp})
 			if m.Scp > maxScp {
@@ -33,28 +28,23 @@ func scpHeat(players []Player) *charts.HeatMap {
 		}
 	}
 	hm := charts.NewHeatMap()
-	hm.SetGlobalOptions(charts.TitleOpts{Title: "SCP"}, charts.InitOpts{Height: "800px"})
+	hm.SetGlobalOptions(charts.TitleOpts{Title: "SCP"}, charts.InitOpts{Height: "800px", Width: "1200px"})
 
 	hm.AddXAxis(matchdays).AddYAxis("SCP", data)
 	hm.SetGlobalOptions(
 		charts.YAxisOpts{Data: names, Type: "category", SplitArea: charts.SplitAreaOpts{Show: true}},
 		charts.XAxisOpts{Type: "category", SplitArea: charts.SplitAreaOpts{Show: true}},
-		charts.VisualMapOpts{Calculable: true, Max: float32(maxScp), Min: 0, InRange: charts.VMInRange{Color: []string{"#d6454e", "#f7eb83", "#34bf5b"}}},
+		charts.VisualMapOpts{Calculable: true, Max: float32(maxScp), Min: 0, InRange: charts.VMInRange{Color: []string{"#d6454e", "#f7eb83", "#40b860"}}},
 	)
 
 	return hm
 }
 
-func gradeHeat(players []Player) *charts.HeatMap {
-	matchdays := make([]int, 34)
-	for i := range matchdays {
-		matchdays[i] = 1 + i
-	}
-
+func gradeHeat(matchdays []int, players []Player) *charts.HeatMap {
 	names := make([]string, len(players))
 	data := make([][3]interface{}, 0)
 	for i, p := range players {
-		names[i] = p.Name
+		names[i] = fmt.Sprintf("%v (%v)", p.Name, p.Team)
 		for j, m := range p.Matches {
 			if m.Grade == 0.0 {
 				data = append(data, [3]interface{}{int(j) - 1, i, "-"})
@@ -64,28 +54,23 @@ func gradeHeat(players []Player) *charts.HeatMap {
 		}
 	}
 	hm := charts.NewHeatMap()
-	hm.SetGlobalOptions(charts.TitleOpts{Title: "Grade"}, charts.InitOpts{Height: "800px"})
+	hm.SetGlobalOptions(charts.TitleOpts{Title: "Note"}, charts.InitOpts{Height: "800px", Width: "1200px"})
 
-	hm.AddXAxis(matchdays).AddYAxis("Grade", data)
+	hm.AddXAxis(matchdays).AddYAxis("Note", data)
 	hm.SetGlobalOptions(
 		charts.YAxisOpts{Data: names, Type: "category", SplitArea: charts.SplitAreaOpts{Show: true}},
 		charts.XAxisOpts{Type: "category", SplitArea: charts.SplitAreaOpts{Show: true}},
-		charts.VisualMapOpts{Calculable: true, Max: 6.0, Min: 1.0, InRange: charts.VMInRange{Color: []string{"#34bf5b", "#f7eb83", "#d6454e"}}},
+		charts.VisualMapOpts{Calculable: true, Max: 6.0, Min: 1.0, InRange: charts.VMInRange{Color: []string{"#40b860", "#f7eb83", "#d6454e"}}},
 	)
 
 	return hm
 }
 
-func top11Heat(players []Player) *charts.HeatMap {
-	matchdays := make([]int, 34)
-	for i := range matchdays {
-		matchdays[i] = 1 + i
-	}
-
+func top11Heat(matchdays []int, players []Player) *charts.HeatMap {
 	names := make([]string, len(players))
 	data := make([][3]interface{}, 0)
 	for i, p := range players {
-		names[i] = p.Name
+		names[i] = fmt.Sprintf("%v (%v)", p.Name, p.Team)
 		for j, m := range p.Matches {
 			if m.Top11 == true {
 				data = append(data, [3]interface{}{int(j) - 1, i, 1})
@@ -95,40 +80,35 @@ func top11Heat(players []Player) *charts.HeatMap {
 		}
 	}
 	hm := charts.NewHeatMap()
-	hm.SetGlobalOptions(charts.TitleOpts{Title: "Top11"}, charts.InitOpts{Height: "800px"})
+	hm.SetGlobalOptions(charts.TitleOpts{Title: "11 des Tages"}, charts.InitOpts{Height: "800px", Width: "1200px"})
 
-	hm.AddXAxis(matchdays).AddYAxis("Top11", data)
+	hm.AddXAxis(matchdays).AddYAxis("11 des Tages", data)
 	hm.SetGlobalOptions(
 		charts.YAxisOpts{Data: names, Type: "category", SplitArea: charts.SplitAreaOpts{Show: true}},
 		charts.XAxisOpts{Type: "category", SplitArea: charts.SplitAreaOpts{Show: true}},
-		charts.VisualMapOpts{Calculable: true, Max: 1, Min: 0, InRange: charts.VMInRange{Color: []string{"#d6454e", "#f7eb83", "#34bf5b"}}},
+		charts.VisualMapOpts{Calculable: true, Max: 1, Min: 0, InRange: charts.VMInRange{Color: []string{"#d6454e", "#f7eb83", "#40b860"}}},
 	)
 
 	return hm
 }
 
-func playtimeHeat(players []Player) *charts.HeatMap {
-	matchdays := make([]int, 34)
-	for i := range matchdays {
-		matchdays[i] = 1 + i
-	}
-
+func playtimeHeat(matchdays []int, players []Player) *charts.HeatMap {
 	names := make([]string, len(players))
 	data := make([][3]interface{}, 0)
 	for i, p := range players {
-		names[i] = p.Name
+		names[i] = fmt.Sprintf("%v (%v)", p.Name, p.Team)
 		for j, m := range p.Matches {
 			data = append(data, [3]interface{}{int(j) - 1, i, m.Playtime})
 		}
 	}
 	hm := charts.NewHeatMap()
-	hm.SetGlobalOptions(charts.TitleOpts{Title: "Playtime"}, charts.InitOpts{Height: "800px"})
+	hm.SetGlobalOptions(charts.TitleOpts{Title: "Spielzeit"}, charts.InitOpts{Height: "800px", Width: "1200px"})
 
-	hm.AddXAxis(matchdays).AddYAxis("Playtime", data)
+	hm.AddXAxis(matchdays).AddYAxis("Spielzeit", data)
 	hm.SetGlobalOptions(
 		charts.YAxisOpts{Data: names, Type: "category", SplitArea: charts.SplitAreaOpts{Show: true}},
 		charts.XAxisOpts{Type: "category", SplitArea: charts.SplitAreaOpts{Show: true}},
-		charts.VisualMapOpts{Calculable: true, Max: 90, Min: 0, InRange: charts.VMInRange{Color: []string{"#d6454e", "#f7eb83", "#34bf5b"}}},
+		charts.VisualMapOpts{Calculable: true, Max: 90, Min: 0, InRange: charts.VMInRange{Color: []string{"#d6454e", "#f7eb83", "#40b860"}}},
 	)
 
 	return hm
@@ -149,11 +129,16 @@ func handler(w http.ResponseWriter, _ *http.Request) {
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 	json.Unmarshal(byteValue, &players)
 
+	matchdays := make([]int, 34)
+	for i := range matchdays {
+		matchdays[i] = 1 + i
+	}
+
 	page.Add(
-		scpHeat(players),
-		playtimeHeat(players),
-		gradeHeat(players),
-		top11Heat(players),
+		scpHeat(matchdays, players),
+		playtimeHeat(matchdays, players),
+		gradeHeat(matchdays, players),
+		top11Heat(matchdays, players),
 	)
 
 	f, err := os.Create("managers.html")

@@ -191,7 +191,7 @@ func serveCharts() {
 		}
 	}()
 
-	fmt.Println("Server started...")
+    fmt.Println("Server started on localhost:8000...")
 
 	<-stop
 	fmt.Println("Stopping server...")

@@ -14,6 +14,13 @@
         "position": "T"
     },
     {
+        "name": "Karius",
+        "team": "UB",
+        "kickerName": "loris-karius",
+        "kickerTeam": "1-fc-union-berlin",
+        "position": "T"
+    },
+    {
         "name": "Boyata",
         "team": "BSC",
         "kickerName": "dedryck-boyata",
@@ -94,6 +101,13 @@
         "name": "Fein",
         "team": "FCB",
         "kickerName": "adrian-fein",
+        "kickerTeam": "fc-bayern-muenchen",
+        "position": "M"
+    },
+    {
+        "name": "Costa",
+        "team": "FCB",
+        "kickerName": "douglas-costa",
         "kickerTeam": "fc-bayern-muenchen",
         "position": "M"
     },
@@ -277,6 +291,13 @@
         "team": "SVW",
         "kickerName": "niclas-fuellkrug",
         "kickerTeam": "werder-bremen",
+        "position": "S"
+    },
+    {
+        "name": "Philipp",
+        "team": "WOL",
+        "kickerName": "maximilian-philipp",
+        "kickerTeam": "vfl-wolfsburg",
         "position": "S"
     }
 ]

@@ -54,7 +54,7 @@ func (m Match) String() string {
 }
 
 func (d Pdata) String() string {
-	return fmt.Sprintf("Grade: %v, Scp: %v, Playtime: %v, SubIn: %v, SubOut: %v, Top11: %v", d.Grade, d.Scp, d.Playtime, d.SubIn, d.SubOut, d.Top11)
+	return fmt.Sprintf("Grade: %v, Scp: %v, Playtime: %v, SubIn: %v, SubOut: %v, Top11: %v, ConcGoals: %v", d.Grade, d.Scp, d.Playtime, d.SubIn, d.SubOut, d.Top11, d.ConcededGoals)
 }
 
 func getPdata(players []Player) (err error) {
@@ -190,7 +190,12 @@ func getAverageData(data map[int]*Pdata) (avg *Average, err error) {
 	avg.Scp = scp / matches
 	avg.Playtime = playtime / matches
 	avg.Top11 = top11
-	avg.ConcededGoals = goals / float64(matches-unknownTeamMatches)
+	var relevantMatches = float64(matches - unknownTeamMatches)
+	if relevantMatches == 0 {
+		avg.ConcededGoals = 0
+	} else {
+		avg.ConcededGoals = goals / relevantMatches
+	}
 	return avg, nil
 }
 

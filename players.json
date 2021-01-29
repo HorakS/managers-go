@@ -98,6 +98,13 @@
         "position": "V"
     },
     {
+        "name": "Angelino",
+        "team": "RB",
+        "kickerName": "angelino",
+        "kickerTeam": "rb-leipzig",
+        "position": "V"
+    },
+    {
         "name": "Fein",
         "team": "FCB",
         "kickerName": "adrian-fein",
@@ -298,6 +305,13 @@
         "team": "WOL",
         "kickerName": "maximilian-philipp",
         "kickerTeam": "vfl-wolfsburg",
+        "position": "S"
+    },
+    {
+        "name": "Hoppe",
+        "team": "S04",
+        "kickerName": "matthew-hoppe",
+        "kickerTeam": "fc-schalke-04",
         "position": "S"
     }
 ]
